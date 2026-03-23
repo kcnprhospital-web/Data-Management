@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHAS Level A Self-Assessment — KCPH</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  --navy: #0d1f35;
+  --navy2: #16304f;
+  --teal: #0e7b6e;
+  --teal2: #13a898;
+  --gold: #c8891a;
+  --gold2: #e8a832;
+  --cream: #f5f1eb;
+  --white: #ffffff;
+  --slate: #566b80;
+  --border: #cdd8e3;
+  --text: #1a2d40;
+  --critical: #b83030;
+  --core: #0e7b6e;
+  --stretch: #6d4fb5;
+  --met: #0e7b6e;
+  --partial: #b07510;
+  --notmet: #b83030;
+  --na: #566b80;
+  --bg: #eef2f7;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.app-header {
+  background: var(--navy);
+  color: white;
+  padding: 0;
+}
+.header-top {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 32px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.header-brand { flex: 1; }
+.header-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(19,168,152,0.2);
+  border: 1px solid rgba(19,168,152,0.4);
+  color: var(--teal2);
+  font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 20px; margin-bottom: 10px;
+}
+.header-title {
+  font-family: 'Lora', serif;
+  font-size: 1.9rem; font-weight: 600;
+  line-height: 1.2;
+  color: white;
+}
+.header-title span { color: var(--gold2); }
+.header-sub {
+  font-size: 12px; color: rgba(255,255,255,0.5);
+  margin-top: 6px; font-weight: 300;
+}
+
+/* Score card in header */
+.header-scorecard {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 16px 22px;
+  min-width: 220px;
+  text-align: center;
+}
+.hsc-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 6px; }
+.hsc-score { font-family: 'Lora', serif; font-size: 2.4rem; color: white; line-height: 1; }
+.hsc-score span { font-size: 1rem; color: rgba(255,255,255,0.4); }
+.hsc-verdict { font-size: 12px; margin-top: 6px; font-weight: 500; }
+.hsc-verdict.met { color: #4dd9a0; }
+.hsc-verdict.partial { color: #f4c04a; }
+.hsc-verdict.notmet { color: #f08080; }
+.hsc-verdict.pending { color: rgba(255,255,255,0.4); }
+
+/* Stats bar */
+.stats-bar {
+  background: var(--navy2);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.stats-bar-inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 14px 32px;
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.stat-item { display: flex; align-items: center; gap: 8px; }
+.stat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.stat-num { font-size: 18px; font-weight: 700; color: white; line-height: 1; }
+.stat-lbl { font-size: 11px; color: rgba(255,255,255,0.45); }
+.stat-bar-track {
+  flex: 1; min-width: 120px;
+  height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;
+  display: flex; gap: 1px;
+}
+.bar-seg { height: 100%; border-radius: 1px; transition: width 0.5s ease; }
+
+/* ===== LAYOUT ===== */
+.app-body {
+  max-width: 1280px; margin: 0 auto;
+  padding: 24px 32px 60px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+}
+@media(max-width: 900px) {
+  .app-body { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position: sticky; top: 20px; align-self: start;
+  max-height: calc(100vh - 40px); overflow-y: auto;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.sidebar-section { margin-bottom: 16px; }
+.sidebar-group-btn {
+  width: 100%;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  display: flex; align-items: center; gap: 10px;
+}
+.sidebar-group-btn:hover { background: #f0f5fa; border-color: var(--teal2); }
+.sidebar-group-btn.active { background: var(--navy); border-color: var(--navy); color: white; }
+.sgb-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(14,123,110,0.12);
+  color: var(--teal); font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.sidebar-group-btn.active .sgb-num { background: rgba(255,255,255,0.15); color: white; }
+.sgb-info { flex: 1; }
+.sgb-name { font-size: 12px; font-weight: 600; line-height: 1.3; }
+.sgb-meta { font-size: 10px; color: var(--slate); margin-top: 2px; }
+.sidebar-group-btn.active .sgb-meta { color: rgba(255,255,255,0.5); }
+.sgb-progress {
+  width: 32px; text-align: right; font-size: 11px; font-weight: 600;
+  color: var(--slate);
+}
+.sidebar-group-btn.active .sgb-progress { color: rgba(255,255,255,0.6); }
+
+/* ===== MAIN PANEL ===== */
+.main-panel { min-width: 0; }
+
+/* Filter bar */
+.filter-bar {
+  background: white;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+.filter-label { font-size: 11px; font-weight: 600; color: var(--slate); letter-spacing: 0.5px; margin-right: 4px; }
+.filter-btn {
+  padding: 5px 14px; border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: white; font-size: 11px; font-weight: 600;
+  cursor: pointer; color: var(--slate); font-family: 'Sora', sans-serif;
+  transition: all 0.15s;
+}
+.filter-btn:hover { border-color: var(--teal2); color: var(--teal); }
+.filter-btn.active { background: var(--navy); border-color: var(--navy); color: white; }
+.filter-btn.critical.active { background: var(--critical); border-color: var(--critical); color: white; }
+.filter-btn.core.active { background: var(--core); border-color: var(--core); color: white; }
+.filter-btn.stretch.active { background: var(--stretch); border-color: var(--stretch); color: white; }
+.filter-sep { width: 1px; height: 22px; background: var(--border); }
+.search-input {
+  flex: 1; min-width: 160px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 6px 12px; font-size: 12px; font-family: 'Sora', sans-serif;
+  color: var(--text); outline: none;
+  transition: border-color 0.2s;
+}
+.search-input:focus { border-color: var(--teal2); }
+
+/* Group heading */
+.group-heading {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 14px; margin-top: 8px;
+  padding: 12px 18px;
+  background: var(--navy);
+  border-radius: 10px;
+  color: white;
+}
+.gh-num {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: rgba(255,255,255,0.12);
+  font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.gh-name { font-family: 'Lora', serif; font-size: 1rem; }
+.gh-meta { margin-left: auto; font-size: 11px; color: rgba(255,255,255,0.5); }
+
+/* Standard card */
+.std-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  border-left: 4px solid var(--border);
+}
+.std-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.09); }
+.std-card.critical-card { border-left-color: var(--critical); }
+.std-card.core-card { border-left-color: var(--core); }
+.std-card.stretch-card { border-left-color: var(--stretch); }
+
+.std-card-header {
+  padding: 14px 18px 12px;
+  cursor: pointer;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.std-code-badge {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+  padding: 3px 10px; border-radius: 6px;
+  flex-shrink: 0; margin-top: 1px;
+  white-space: nowrap;
+}
+.critical-card .std-code-badge { background: #fdf0f0; color: var(--critical); }
+.core-card .std-code-badge { background: #edf7f5; color: var(--core); }
+.stretch-card .std-code-badge { background: #f3f0fa; color: var(--stretch); }
+
+.std-header-info { flex: 1; min-width: 0; }
+.std-title {
+  font-size: 13px; font-weight: 600; line-height: 1.45;
+  color: var(--navy); margin-bottom: 5px;
+}
+.std-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.std-tag {
+  font-size: 10px; padding: 2px 8px; border-radius: 10px;
+  font-weight: 600; letter-spacing: 0.5px;
+  border: 1px solid;
+}
+.tag-critical { color: var(--critical); border-color: #f0c0c0; background: #fdf8f8; }
+.tag-core { color: var(--core); border-color: #aee0d8; background: #f0faf8; }
+.tag-stretch { color: var(--stretch); border-color: #c8b8f0; background: #f5f2fb; }
+.tag-grey { color: var(--slate); border-color: var(--border); background: #f5f7fa; }
+
+.std-status-wrap {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+  flex-shrink: 0;
+}
+.status-sel {
+  appearance: none;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 28px 5px 12px;
+  font-size: 11px; font-weight: 700;
+  font-family: 'Sora', sans-serif;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23566b80'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+  background-color: white; cursor: pointer; color: var(--slate);
+  transition: all 0.2s; min-width: 132px;
+}
+.status-sel.met { border-color: var(--met); color: var(--met); background-color: #edf7f5; }
+.status-sel.partial { border-color: var(--partial); color: var(--partial); background-color: #fdf6e6; }
+.status-sel.notmet { border-color: var(--notmet); color: var(--notmet); background-color: #fdf0f0; }
+.status-sel.na { border-color: var(--slate); color: var(--slate); background-color: #f4f6f9; }
+
+.me-counter {
+  font-size: 10px; color: var(--slate); white-space: nowrap;
+}
+.me-dots { display: flex; gap: 3px; }
+.me-mini-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border); transition: background 0.3s;
+}
+.me-mini-dot.met { background: var(--met); }
+.me-mini-dot.partial { background: var(--partial); }
+.me-mini-dot.notmet { background: var(--notmet); }
+
+.chevron-icon { color: var(--slate); transition: transform 0.25s; flex-shrink: 0; margin-top: 4px; }
+.std-card-header.open .chevron-icon { transform: rotate(180deg); }
+
+/* Expanded body */
+.std-card-body { display: none; border-top: 1px solid #eef2f6; }
+.std-card-body.open { display: block; }
+
+.me-list { padding: 0; }
+.me-row {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 18px;
+  border-bottom: 1px solid #f2f5f8;
+}
+.me-row:last-child { border-bottom: none; }
+.me-index {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--navy); color: white;
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.me-text { flex: 1; font-size: 12.5px; line-height: 1.55; color: var(--text); }
+.me-sel {
+  appearance: none;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 4px 22px 4px 10px;
+  font-size: 10px; font-weight: 700;
+  font-family: 'Sora', sans-serif;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23566b80'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 8px center;
+  background-color: white; cursor: pointer; color: var(--slate);
+  transition: all 0.2s; min-width: 110px; flex-shrink: 0;
+}
+.me-sel.met { border-color: var(--met); color: var(--met); background-color: #edf7f5; }
+.me-sel.partial { border-color: var(--partial); color: var(--partial); background-color: #fdf6e6; }
+.me-sel.notmet { border-color: var(--notmet); color: var(--notmet); background-color: #fdf0f0; }
+.me-sel.na { border-color: var(--slate); color: var(--slate); background-color: #f4f6f9; }
+
+/* Notes area at bottom of card */
+.card-notes-wrap {
+  padding: 12px 18px;
+  background: #fafbfc;
+  border-top: 1px solid #eef2f6;
+}
+.notes-lbl { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--slate); font-weight: 600; margin-bottom: 6px; }
+textarea.card-notes {
+  width: 100%; min-height: 60px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 8px 12px; font-family: 'Sora', sans-serif; font-size: 12px;
+  color: var(--text); resize: vertical; outline: none; background: white;
+  transition: border-color 0.2s;
+}
+textarea.card-notes:focus { border-color: var(--teal2); }
+
+/* ===== SUMMARY PANEL ===== */
+.summary-panel {
+  display: none;
+}
+.summary-panel.visible { display: block; }
+
+/* ===== ACTION TOOLBAR ===== */
+.action-toolbar {
+  background: white;
+  border-top: 1px solid var(--border);
+  position: sticky; bottom: 0; z-index: 100;
+  padding: 12px 32px;
+  display: flex; gap: 10px; align-items: center;
+  flex-wrap: wrap;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+}
+.action-toolbar-info { flex: 1; font-size: 12px; color: var(--slate); }
+.action-toolbar-info strong { color: var(--navy); }
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 8px;
+  font-size: 12px; font-weight: 600; font-family: 'Sora', sans-serif;
+  cursor: pointer; border: none; transition: all 0.15s;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--navy); color: white; }
+.btn-primary:hover { background: var(--navy2); }
+.btn-teal { background: var(--teal); color: white; }
+.btn-teal:hover { background: var(--teal2); }
+.btn-outline { background: white; color: var(--navy); border: 1.5px solid var(--navy); }
+.btn-outline:hover { background: #f0f4f8; }
+.btn-danger { background: white; color: var(--notmet); border: 1.5px solid #f0c0c0; }
+.btn-danger:hover { background: #fdf0f0; }
+.btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(13,31,53,0.6);
+  backdrop-filter: blur(3px);
+  z-index: 999;
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white; border-radius: 16px;
+  max-width: 780px; width: 100%;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+}
+.modal-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 22px 26px 18px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: white; z-index: 1;
+  border-radius: 16px 16px 0 0;
+}
+.modal-title { font-family: 'Lora', serif; font-size: 1.2rem; color: var(--navy); }
+.modal-sub { font-size: 12px; color: var(--slate); margin-top: 3px; }
+.modal-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #f0f4f8; border: none; cursor: pointer;
+  font-size: 16px; color: var(--slate);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-left: 12px;
+}
+.modal-close:hover { background: var(--border); }
+.modal-body { padding: 22px 26px; }
+
+/* Summary in modal */
+.summary-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  margin-bottom: 24px;
+}
+@media(max-width:600px) { .summary-grid { grid-template-columns: repeat(2,1fr); } }
+.sum-card {
+  border-radius: 10px; padding: 14px 16px; text-align: center;
+}
+.sum-card.met-card { background: #edf7f5; border-top: 3px solid var(--met); }
+.sum-card.partial-card { background: #fdf6e6; border-top: 3px solid var(--partial); }
+.sum-card.notmet-card { background: #fdf0f0; border-top: 3px solid var(--notmet); }
+.sum-card.na-card { background: #f4f6f9; border-top: 3px solid var(--slate); }
+.sum-num { font-family: 'Lora', serif; font-size: 2rem; font-weight: 600; }
+.sum-card.met-card .sum-num { color: var(--met); }
+.sum-card.partial-card .sum-num { color: var(--partial); }
+.sum-card.notmet-card .sum-num { color: var(--notmet); }
+.sum-card.na-card .sum-num { color: var(--slate); }
+.sum-lbl { font-size: 11px; color: var(--slate); margin-top: 3px; font-weight: 600; }
+
+.group-summary-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.group-summary-table th {
+  background: var(--navy); color: white; padding: 8px 12px;
+  text-align: left; font-weight: 600; font-size: 11px; letter-spacing: 0.5px;
+}
+.group-summary-table td { padding: 8px 12px; border-bottom: 1px solid #f0f4f8; }
+.group-summary-table tr:hover td { background: #f8fafb; }
+.verdict-pill {
+  display: inline-block; padding: 2px 10px; border-radius: 10px;
+  font-size: 10px; font-weight: 700;
+}
+.verdict-pill.met { background: #edf7f5; color: var(--met); }
+.verdict-pill.partial { background: #fdf6e6; color: var(--partial); }
+.verdict-pill.notmet { background: #fdf0f0; color: var(--notmet); }
+.verdict-pill.pending { background: #f4f6f9; color: var(--slate); }
+
+/* Progress bar */
+.progress-bar {
+  height: 6px; background: #e8eef4; border-radius: 3px; overflow: hidden;
+  display: flex; gap: 1px;
+}
+.pb-met { background: var(--met); }
+.pb-partial { background: var(--partial); }
+.pb-notmet { background: var(--notmet); }
+
+/* Classification legend */
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* Sync indicator */
+.sync-indicator {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--slate); font-weight: 500;
+  padding: 6px 12px; background: #f4f6f9; border-radius: 20px;
+  border: 1px solid var(--border);
+}
+.sync-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  transition: background 0.3s;
+}
+.sync-dot.saved { background: var(--met); }
+.sync-dot.saving { background: var(--gold2); animation: pulse 1s infinite; }
+.sync-dot.error { background: var(--notmet); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.btn-sync {
+  background: white; color: var(--teal); border: 1.5px solid var(--teal);
+  font-family: 'Sora', sans-serif;
+}
+.btn-sync:hover { background: #edf7f5; }
+.btn-sync svg { width: 14px; height: 14px; }
+
+/* Print */
+@media print {
+  .sidebar, .action-toolbar, .filter-bar, .btn, .modal-overlay { display: none !important; }
+  .app-body { grid-template-columns: 1fr; padding: 16px; }
+  .std-card-body { display: block !important; }
+  body { background: white; }
+  .app-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="app-header">
+  <div class="header-top">
+    <div class="header-brand">
+      <div class="header-badge">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.4"/><path d="M3 5l1.5 1.5L7 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        CHAS Second Edition · Level A Advanced Standards
+      </div>
+      <div class="header-title">KCPH <span>Self-Assessment Tool</span></div>
+      <div class="header-sub">Kampong Chhnang Provincial Hospital · 198-bed CPA3 · 35 Standards · 175 Measurable Elements · 12 Groups</div>
+    </div>
+    <div class="header-scorecard">
+      <div class="hsc-label">Overall Compliance</div>
+      <div class="hsc-score" id="hscScore">0 <span>/ 35</span></div>
+      <div class="hsc-verdict pending" id="hscVerdict">Not Started</div>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div class="stats-bar-inner">
+      <div class="stat-item">
+        <div class="stat-dot" style="background:#4dd9a0"></div>
+        <div>
+          <div class="stat-num" id="statMet">0</div>
+          <div class="stat-lbl">Met</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-dot" style="background:#f4c04a"></div>
+        <div>
+          <div class="stat-num" id="statPartial">0</div>
+          <div class="stat-lbl">Partial</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-dot" style="background:#f08080"></div>
+        <div>
+          <div class="stat-num" id="statNotMet">0</div>
+          <div class="stat-lbl">Not Met</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-dot" style="background:#8898aa"></div>
+        <div>
+          <div class="stat-num" id="statNA">0</div>
+          <div class="stat-lbl">N/A</div>
+        </div>
+      </div>
+      <div class="stat-item" style="flex:1;">
+        <div class="stat-bar-track" style="width:100%">
+          <div class="bar-seg pb-met" id="barMet" style="width:0%"></div>
+          <div class="bar-seg pb-partial" id="barPartial" style="width:0%"></div>
+          <div class="bar-seg pb-notmet" id="barNotMet" style="width:0%"></div>
+        </div>
+      </div>
+      <div style="color:rgba(255,255,255,0.35);font-size:11px;" id="statAssessed">0 / 35 assessed</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="app-body">
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar"></div>
+
+  <!-- MAIN PANEL -->
+  <div class="main-panel">
+    <div class="filter-bar">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" onclick="setFilter('all',this)">All 35</button>
+      <div class="filter-sep"></div>
+      <button class="filter-btn critical" onclick="setFilter('Critical',this)">● Critical (3)</button>
+      <button class="filter-btn core" onclick="setFilter('Core',this)">● Core (23)</button>
+      <button class="filter-btn stretch" onclick="setFilter('Stretch',this)">● Stretch (9)</button>
+      <div class="filter-sep"></div>
+      <button class="filter-btn" onclick="setFilter('notmet',this)">✗ Not Met</button>
+      <button class="filter-btn" onclick="setFilter('partial',this)">◑ Partial</button>
+      <button class="filter-btn" onclick="setFilter('pending',this)">○ Pending</button>
+      <input class="search-input" type="text" placeholder="Search standards…" oninput="searchStandards(this.value)" id="searchBox">
+    </div>
+
+    <div id="standardsContainer"></div>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="action-toolbar">
+  <div class="action-toolbar-info">
+    <strong>KCPH</strong> · CHAS Level A Self-Assessment · <span id="toolbarDate"></span>
+  </div>
+  <div class="sync-indicator">
+    <div class="sync-dot error" id="syncDot"></div>
+    <span id="syncStatus">Not configured</span>
+  </div>
+  <button class="btn btn-sync" onclick="loadFromSheet()" title="Load saved data from Google Sheets">
+    <svg viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 0110 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M12 7l-1.5-1.5M12 7l-1.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Load from Sheet
+  </button>
+  <button class="btn btn-outline" onclick="resetAll()">↺ Reset</button>
+  <button class="btn btn-outline" onclick="expandAll()">↕ Expand All</button>
+  <button class="btn btn-teal" onclick="openSummary()">
+    <svg viewBox="0 0 14 14" fill="none"><path d="M2 4h10M2 7h7M2 10h5" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+    View Summary
+  </button>
+  <button class="btn btn-primary" onclick="exportReport()">
+    <svg viewBox="0 0 14 14" fill="none"><path d="M7 2v7m0 0L4.5 6.5M7 9l2.5-2.5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11h10" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+    Export Report
+  </button>
+</div>
+
+<!-- SUMMARY MODAL -->
+<div class="modal-overlay" id="summaryModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">CHAS Level A — Compliance Summary</div>
+        <div class="modal-sub">Kampong Chhnang Provincial Hospital · <span id="modalDate"></span></div>
+      </div>
+      <button class="modal-close" onclick="closeSummary()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA — 35 Standards across 12 Groups
+// ============================================================
+const GROUPS = [
+  { id:1, code:'G1', name:'Patient & Family Rights', abbr:'PFR/PFE', stds:3, mes:15 },
+  { id:2, code:'G2', name:'Leadership & Management', abbr:'LM', stds:3, mes:12 },
+  { id:3, code:'G3', name:'Quality Improvement & Patient Safety', abbr:'QIS', stds:3, mes:13 },
+  { id:4, code:'G4', name:'Infection Prevention & Control', abbr:'IPC', stds:3, mes:19 },
+  { id:5, code:'G5', name:'Human Resources', abbr:'HR', stds:4, mes:20 },
+  { id:6, code:'G6', name:'Patient Care Services', abbr:'PCS', stds:3, mes:15 },
+  { id:7, code:'G7', name:'Medication Management', abbr:'MM', stds:3, mes:16 },
+  { id:8, code:'G8', name:'Diagnostic Services', abbr:'DS', stds:3, mes:15 },
+  { id:9, code:'G9', name:'Support Services', abbr:'SS', stds:3, mes:15 },
+  { id:10, code:'G10', name:'Integration of Healthcare Services', abbr:'IHS', stds:3, mes:15 },
+  { id:11, code:'G11', name:'Environmental Safety & Security', abbr:'ESS', stds:2, mes:10 },
+  { id:12, code:'G12', name:'Data Management', abbr:'DM', stds:2, mes:10 },
+];
+
+const STANDARDS = [
+  // Group 1
+  { code:'PFR.9', group:1, cls:'Core', mes:6,
+    title:'Analyzes aggregate patient complaint, suggestion, and satisfaction data to identify trends, develop PDSA improvement plans, and demonstrate measurable improvements.',
+    meTexts:['Aggregate complaint and suggestion data reviewed at least quarterly to identify recurring problems and trends.','Aggregate patient satisfaction data analyzed at least twice per year, with results compared across service areas and over time.','Improvement areas identified from analysis of both complaint and satisfaction data.','Action plans developed using PDSA cycle to address identified problems.','Committee reviews progress on action plans and documents measurable improvements achieved.','Results and actions communicated to hospital leadership and relevant departments.']
+  },
+  { code:'PFE.3', group:1, cls:'Stretch', mes:4,
+    title:'Evaluates the effectiveness of patient and family education through assessment of knowledge retention, behavior change, and impact on clinical outcomes.',
+    meTexts:['Patient and family education effectiveness is evaluated using structured methods (teach-back, post-discharge assessment, or equivalent).','Education evaluation data are analyzed to identify which educational approaches are most effective.','Identified gaps in patient knowledge or education effectiveness lead to documented improvements in education methods.','Evidence demonstrates that improved education correlates with better patient compliance or outcomes for at least one clinical area.']
+  },
+  { code:'PFR.10', group:1, cls:'Stretch', mes:5,
+    title:'Fosters an organizational culture of patient rights through leadership commitment, staff accountability, patient empowerment programs, and demonstrated outcome improvements.',
+    meTexts:['Leadership demonstrates visible commitment to patient rights through documented actions and resource allocation.','Staff accountability mechanisms for patient rights are implemented and monitored.','Patient empowerment programs enable patients and families to actively participate in their care.','Patient rights violations are tracked, analyzed, and lead to systemic improvements.','Measurable improvements in patient rights indicators are documented over time.']
+  },
+  // Group 2
+  { code:'LM.10', group:2, cls:'Stretch', mes:4,
+    title:'Engages the governing body and community stakeholders in strategic oversight, accountability reporting, and community health needs assessment to align hospital priorities with population needs.',
+    meTexts:['The governing body receives regular performance reports including quality, safety, and financial indicators.','Community health needs assessment informs the hospital strategic plan and service priorities.','Strategic alignment between community health needs and hospital services is documented and reviewed.','Accountability mechanisms ensure leadership acts on governing body and stakeholder feedback.']
+  },
+  { code:'LM.11', group:2, cls:'Core', mes:4,
+    title:'Hospital managers evaluate departmental performance using data-driven methods, benchmark against standards, and implement improvement plans with documented, measurable outcomes.',
+    meTexts:['Departmental performance is evaluated using defined indicators reviewed at regular intervals (at least quarterly).','Performance data are benchmarked against national standards or historical trends.','Improvement plans are developed when performance falls below targets, using structured methodology.','Documented evidence shows measurable improvement resulting from management-initiated interventions.']
+  },
+  { code:'LM.12', group:2, cls:'Core', mes:4,
+    title:'Hospital leaders conduct an annual comprehensive organizational performance review using integrated data to set strategic priorities and demonstrate year-on-year improvement.',
+    meTexts:['An annual organizational performance review is conducted integrating clinical, operational, financial, and quality data.','The review results in documented strategic priorities for the following year.','Year-on-year comparison data are presented to demonstrate trends and improvements.','Leadership communicates review findings and priorities to all levels of the organization.']
+  },
+  // Group 3
+  { code:'QIS.5', group:3, cls:'Stretch', mes:4,
+    title:'Has a designated quality improvement infrastructure with trained QI staff, a functional QI committee, and a documented QI plan with measurable annual targets.',
+    meTexts:['A designated QI committee or team with defined membership and TOR meets at least monthly.','At least one staff member with formal QI training leads the QI program.','An annual QI plan with specific, measurable improvement targets is documented and approved by leadership.','Progress against the QI plan is reviewed quarterly and reported to hospital leadership.']
+  },
+  { code:'QIS.6', group:3, cls:'Stretch', mes:5,
+    title:'Conducts systematic measurement of hospital-wide quality indicators covering clinical outcomes, patient safety events, and operational performance with trend analysis and benchmarking.',
+    meTexts:['Hospital-wide quality indicators are defined covering clinical outcomes, patient safety, and operational domains.','Data for all defined indicators are collected consistently and reported at least quarterly.','Trend analysis is performed to identify patterns, outliers, and improvement opportunities.','Results are benchmarked against national targets or historical baselines.','Indicator performance is reported to hospital leadership and department heads with action follow-up.']
+  },
+  { code:'QIS.7', group:3, cls:'Stretch', mes:4,
+    title:'Operates a mature patient safety and risk management system that identifies, analyzes, and systematically reduces risks through RCA, proactive risk assessment, and documented safety improvements.',
+    meTexts:['A patient safety incident reporting system is operational with defined reporting categories and investigation protocols.','Root cause analysis (RCA) is conducted for all sentinel events and selected serious incidents.','Proactive risk assessment (FMEA or equivalent) is applied to at least one high-risk process annually.','Documented evidence shows that safety improvements implemented based on incident analysis have reduced risk.']
+  },
+  // Group 4
+  { code:'IPC.9', group:4, cls:'Core', mes:6,
+    title:'Implements a surveillance system for healthcare-associated infections (HAIs) that collects, analyzes, and reports HAI rates with trend monitoring and demonstrated reduction outcomes.',
+    meTexts:['HAI surveillance covers at least 3 priority HAI types (SSI, CAUTI, CLABSI, VAP, or equivalent) appropriate to hospital services.','HAI data are collected using standardized definitions and reported at least monthly.','HAI rates are trended over time and compared to previous periods or national benchmarks.','HAI surveillance findings are reported to clinical departments, IPC committee, and hospital leadership.','Action plans are developed when HAI rates exceed targets, with documented follow-up.','Evidence demonstrates reduction in at least one HAI rate as a result of targeted interventions.']
+  },
+  { code:'IPC.10', group:4, cls:'Critical', mes:6,
+    title:'Uses multimodal strategies to improve IPC practices, conducts regular monitoring of IPC compliance, and demonstrates measurable improvement in IPC indicators through data-driven interventions.',
+    meTexts:['IPC activities use multimodal strategies (education, system change, monitoring, feedback, culture change) rather than single-method approaches.','IPC champions are identified and active in at least 50% of clinical departments.','Regular monitoring of selected IPC process indicators is conducted (hand hygiene, PPE use, waste segregation) at least quarterly.','IPC compliance data are analyzed, fed back to departments, and used to drive improvement.','An annual IPC report is produced documenting activities, findings, and outcomes.','Measurable improvement in at least one IPC indicator is documented over a 12-month period.']
+  },
+  { code:'IPC.11', group:4, cls:'Stretch', mes:7,
+    title:'The IPC committee systematically reviews construction and renovation projects, applying IPC risk assessment, and demonstrates integration of IPC principles into hospital infrastructure decisions.',
+    meTexts:['The IPC committee participates in planning and review of all construction and renovation projects.','A pre-construction IPC risk assessment (ICRA) is completed for all projects.','IPC precaution levels are defined based on risk assessment findings.','IPC requirements are communicated to contractors and monitored during construction.','IPC committee members conduct site inspections during construction projects.','Post-construction sign-off includes IPC assessment before areas are reopened.','Documentation of IPC integration in construction projects is maintained and reviewable.']
+  },
+  // Group 5
+  { code:'HR.9', group:5, cls:'Core', mes:5,
+    title:'The HR department systematically measures workforce performance, conducts competency assessments, and links performance evaluation results to staff development plans.',
+    meTexts:['Performance evaluation is conducted for all staff at least annually using standardized tools.','Competency assessment data are analyzed to identify workforce-wide training needs.','Individual staff development plans are developed based on performance evaluation results.','Training and development activities are tracked and completion rates reported to leadership.','HR metrics (turnover, absenteeism, competency compliance) are analyzed quarterly and reported.']
+  },
+  { code:'HR.10', group:5, cls:'Core', mes:5,
+    title:'The hospital monitors and manages staff health, wellbeing, and occupational safety with documented programs, incident tracking, and demonstrated improvements in staff health indicators.',
+    meTexts:['A staff health and occupational safety program is implemented covering vaccination, post-exposure management, and injury prevention.','Staff health and safety incidents are tracked, analyzed, and trended over time.','Staff vaccination coverage rates (particularly HBV, influenza) are monitored and reported.','Occupational health interventions are implemented based on incident analysis findings.','Documented improvement in at least one staff health indicator over 12 months.']
+  },
+  { code:'HR.11', group:5, cls:'Stretch', mes:5,
+    title:'The hospital has developed and implemented a succession planning and leadership development program with documented outcomes demonstrating pipeline development for key positions.',
+    meTexts:['Key positions subject to succession planning are identified and documented.','Succession candidates are identified and enrolled in targeted development activities.','Leadership development program activities are documented with attendance and outcome records.','Career pathway frameworks for clinical and administrative staff are defined and communicated.','Evidence shows that at least one leadership position has been filled from the succession pipeline.']
+  },
+  { code:'HR.12', group:5, cls:'Stretch', mes:5,
+    title:'The hospital demonstrates a culture of organizational learning through systematic capture and dissemination of lessons learned, best practice sharing, and innovation adoption.',
+    meTexts:['A system for capturing lessons learned from incidents, near-misses, and improvement projects is operational.','Lessons learned are disseminated across relevant departments through structured communication.','At least two best practices or innovations have been adopted from external sources and implemented with documented outcomes.','Staff are recognized and rewarded for contributing to organizational learning.','Evidence shows that organizational learning activities have led to measurable improvements.']
+  },
+  // Group 6
+  { code:'PCS.12', group:6, cls:'Critical', mes:5,
+    title:'Systematically monitors clinical practice compliance against evidence-based protocols, analyzes compliance data quarterly, identifies non-compliance patterns, and implements corrective actions with sustained results.',
+    meTexts:['Data on individual and departmental clinical practice compliance are collected and reviewed at least quarterly.','Data are analyzed to identify patterns of compliance and non-compliance.','Root causes of non-compliance are investigated and addressed through targeted interventions.','Corrective actions are implemented and their effectiveness is evaluated.','Trend data demonstrate sustained improvement in clinical practice compliance over time.']
+  },
+  { code:'PCS.13', group:6, cls:'Core', mes:5,
+    title:'Education methods are adapted to patient needs, literacy, and culture, evaluated for effectiveness using teach-back and other methods, with documented outcomes showing improved patient understanding.',
+    meTexts:["The patient's and family's educational needs, literacy, language, and cultural preferences are assessed before education is provided.",'Education is adapted to the patient\'s preferred learning style and capacity to learn.','Education is evaluated for effectiveness using teach-back or equivalent verification methods.','Educational materials are reviewed periodically and updated to ensure they are current, available, and useful.','Documentation demonstrates that patients and families have understood the education provided (teach-back outcomes recorded).']
+  },
+  { code:'PCS.14', group:6, cls:'Core', mes:5,
+    title:'Uses referral, transfer, and discharge data to monitor care continuity, track follow-up compliance, and demonstrate improved patient outcomes across care transitions.',
+    meTexts:['Referral and transfer data are systematically collected and analyzed to assess continuity of care.','Follow-up compliance rates for discharged patients are monitored and trended.','Data identify patients who are lost to follow-up or require additional intervention.','Interventions to improve care continuity are implemented and their outcomes documented.','Evidence demonstrates improved continuity of care outcomes (follow-up rates, readmission reduction) over time.']
+  },
+  // Group 7
+  { code:'MM.9', group:7, cls:'Core', mes:5,
+    title:'Monitors antimicrobial use patterns, conducts antimicrobial stewardship activities, tracks resistance trends, and demonstrates measurable improvements in rational antimicrobial prescribing.',
+    meTexts:['Antimicrobial use data (consumption by drug class and department) are collected and analyzed at least quarterly.','An antimicrobial stewardship program (ASP) with defined interventions is operational.','Antimicrobial resistance trends are monitored using microbiological data and reported to clinical staff.','ASP interventions have led to documented changes in prescribing practices.','Measurable improvement in at least one antimicrobial use indicator (defined daily doses, days of therapy, or compliance with prescribing guidelines) is demonstrated.']
+  },
+  { code:'MM.10', group:7, cls:'Core', mes:5,
+    title:'Demonstrates safe medication administration through systematic monitoring of medication errors, adverse drug events, and near-misses with root cause analysis and documented safety improvements.',
+    meTexts:['Medication errors, adverse drug events, and near-misses are reported using a standardized system and analyzed at least monthly.','Trend analysis of medication safety incidents identifies high-risk medications, processes, and patient populations.','Root cause analysis is conducted for serious medication errors with documented corrective actions.','Safety improvements (labeling, storage, protocols) are implemented based on incident analysis.','Evidence demonstrates reduction in medication error rates or improved medication safety outcomes over time.']
+  },
+  { code:'MM.11', group:7, cls:'Core', mes:6,
+    title:'Pharmacy staff systematically review prescriptions for appropriateness, interact with prescribers on drug therapy optimization, and document clinical pharmacy activities with measurable patient outcomes.',
+    meTexts:['Pharmacy staff conduct prospective prescription review for high-risk medications and complex patients.','Clinical pharmacy interventions (dose adjustments, drug interaction alerts, substitutions) are documented systematically.','Prescriber acceptance rates for pharmacy interventions are tracked and analyzed.','Clinical pharmacy activities are linked to patient outcome metrics (adverse events prevented, LOS, cost).','Pharmacy participates in multidisciplinary rounds for at least one high-risk clinical area.','Annual report of clinical pharmacy activities documents volume, types, and outcomes of interventions.']
+  },
+  // Group 8
+  { code:'DS.10', group:8, cls:'Critical', mes:5,
+    title:'Each diagnostic service implements a quality management program with internal and external quality control, monitors turnaround times and error rates, and demonstrates measurable quality improvements.',
+    meTexts:['Internal quality control (IQC) is performed for all diagnostic tests with results documented and reviewed.','External quality assessment (EQA) or proficiency testing is conducted for all applicable diagnostic disciplines.','Turnaround time and critical value reporting compliance are monitored and trended.','Diagnostic errors (pre-analytical, analytical, post-analytical) are tracked and analyzed.','Quality improvement interventions are implemented and show measurable improvement in diagnostic quality indicators.']
+  },
+  { code:'DS.11', group:8, cls:'Core', mes:5,
+    title:'Pathology and cytology services ensure accurate, timely diagnosis through validated methods, quality controls, correlative review, and demonstrated diagnostic accuracy outcomes.',
+    meTexts:['Pathology and cytology services use validated, standardized diagnostic methods with documented SOPs.','Correlative review between histopathology and cytology findings is performed for discordant cases.','Diagnostic accuracy is monitored through discrepancy tracking and peer review.','Turnaround times for routine and urgent pathology are monitored and reported.','Quality indicators for pathology services show improvement or sustained compliance over time.']
+  },
+  { code:'DS.12', group:8, cls:'Core', mes:5,
+    title:'The hospital has an integrated diagnostic information system that ensures timely, accurate, and complete transmission of results to clinical teams with documented impact on clinical decision-making.',
+    meTexts:['Diagnostic results are transmitted to ordering clinicians within defined timeframes using a reliable system.','Critical value notification is documented with defined escalation protocols and compliance monitoring.','Diagnostic information system downtime procedures are defined, tested, and documented.','Result completeness and accuracy are monitored with identified error rates tracked over time.','Evidence demonstrates that timely diagnostic information contributes to clinical decision-making and patient outcomes.']
+  },
+  // Group 9
+  { code:'SS.8', group:9, cls:'Core', mes:5,
+    title:'Each support service implements performance monitoring using defined indicators, benchmarks performance, identifies improvement opportunities, and demonstrates measurable service quality improvements.',
+    meTexts:['Each support service (laundry, nutrition, housekeeping, maintenance, biomedical) has defined performance indicators monitored at least quarterly.','Performance data are analyzed and benchmarked against standards or historical baselines.','Improvement opportunities are identified from performance data with action plans developed.','Support service performance results are reported to department heads and hospital leadership.','Measurable improvement in at least one support service indicator is documented over 12 months.']
+  },
+  { code:'SS.9', group:9, cls:'Core', mes:5,
+    title:'The hospital implements systematic monitoring of contracted and outsourced services ensuring contracted quality standards are met with documented oversight and corrective action mechanisms.',
+    meTexts:['All contracted and outsourced services have defined quality standards specified in contracts or service agreements.','Performance of contracted services is monitored against contracted standards at regular intervals.','Monitoring results are documented and shared with contractors with corrective action requirements when standards are not met.','Contract renewal decisions incorporate performance evaluation results.','Evidence demonstrates that contracted service quality meets or exceeds defined standards.']
+  },
+  { code:'SS.10', group:9, cls:'Core', mes:5,
+    title:'The hospital demonstrates environmental sustainability through waste reduction programs, resource conservation metrics, and documented improvements in environmental performance indicators.',
+    meTexts:['Waste generation data (by type: general, infectious, sharps, pharmaceutical) are collected, analyzed, and trended.','Resource consumption (water, electricity) is monitored with conservation targets and trend data.','Waste segregation compliance is monitored through audits with documented compliance rates.','Environmental improvement initiatives are implemented with measurable outcomes (waste reduction, cost savings).','Annual environmental performance report documents progress against sustainability targets.']
+  },
+  // Group 10
+  { code:'IHS.8', group:10, cls:'Core', mes:5,
+    title:'The hospital monitors and improves care coordination across internal departments, tracking patient flow, handover quality, and inter-departmental communication with demonstrated outcome improvements.',
+    meTexts:['Inter-departmental patient handover processes are standardized and compliance monitored.','Internal patient flow metrics (wait times, transfer delays, bed occupancy) are tracked and analyzed.','Care coordination failures (missed handovers, communication errors, delayed transfers) are tracked and investigated.','Improvement interventions targeting care coordination are implemented with documented outcomes.','Evidence demonstrates improved patient flow or coordination outcomes over time.']
+  },
+  { code:'IHS.9', group:10, cls:'Core', mes:5,
+    title:'The hospital ensures equitable access to services and monitors disparities in care delivery, service utilization, and outcomes across patient populations with documented equity improvement actions.',
+    meTexts:['Service utilization data are analyzed by patient demographics (geography, socioeconomic status, gender, age) to identify disparities.','Barriers to equitable access (financial, geographic, language, cultural) are identified and addressed.','Equity indicators are monitored and reported to hospital leadership.','Actions to address identified disparities are implemented with documented outcomes.','Evidence shows improvement in equity of access or care outcomes for underserved populations.']
+  },
+  { code:'IHS.10', group:10, cls:'Core', mes:5,
+    title:'The hospital demonstrates effective integration with the provincial health system through data sharing, joint planning, referral network performance monitoring, and measurable system-level health outcomes.',
+    meTexts:['The hospital participates in provincial health data sharing with PHD through regular reporting.','Referral network performance (upstream referrals from health centers, downstream referrals to national hospitals) is monitored.','Joint planning activities with PHD and health centers are documented with KCPH participation.','Community health outcomes informed by hospital interventions are tracked (catchment area mortality, vaccination rates).','Evidence demonstrates that hospital-system integration has contributed to measurable provincial health improvements.']
+  },
+  // Group 11
+  { code:'ESS.9', group:11, cls:'Core', mes:5,
+    title:'The hospital implements a comprehensive environmental safety program covering facility inspection, hazard mitigation, fire safety, and utility management with documented compliance and improvement outcomes.',
+    meTexts:['Regular environmental safety inspections are conducted across all hospital areas with documented findings and corrective actions.','Hazard identification and mitigation activities are systematically tracked and resolved within defined timeframes.','Fire safety systems (detection, suppression, evacuation) are tested regularly with documented results.','Utility management (water, electricity, medical gases) includes backup systems with testing records.','Environmental safety compliance metrics show improvement or sustained compliance over 12 months.']
+  },
+  { code:'ESS.10', group:11, cls:'Core', mes:5,
+    title:'The hospital demonstrates security management effectiveness through incident tracking, access control monitoring, staff safety assurance, and documented improvements in security performance indicators.',
+    meTexts:['Security incidents (unauthorized access, theft, violence, patient elopement) are tracked, analyzed, and trended.','Access control systems for sensitive areas (pharmacy, pediatrics, ICU, records) are monitored for compliance.','Staff safety concerns are systematically captured and addressed through security improvement actions.','Security drills and awareness activities are conducted with documented participation and outcomes.','Security performance indicators show improvement or sustained safety levels over time.']
+  },
+  // Group 12
+  { code:'DM.9', group:12, cls:'Core', mes:5,
+    title:'Pursues digital health maturity through a documented roadmap aligned with Cambodia\'s National Digital Health Strategy 2024–2035, with measurable progress on digital infrastructure and interoperability goals.',
+    meTexts:['A digital health roadmap aligned with the National Digital Health Strategy 2024–2035 is documented and approved by leadership.','Current digital maturity level is assessed against defined criteria with a phased improvement plan.','Digital health infrastructure investments are tracked with implementation milestones documented.','Interoperability goals (data exchange with HMIS, PHD systems) are defined with progress monitored.','Measurable progress against the digital health roadmap is demonstrated and reported annually.']
+  },
+  { code:'DM.10', group:12, cls:'Core', mes:5,
+    title:'Uses integrated clinical, operational, and quality data analytics to drive measurable improvements in care quality, patient safety, and performance, supported by early-warning capabilities, population health contribution, research data governance, and a data-driven improvement culture.',
+    meTexts:['Integrated analytics combine clinical, operational, quality, and financial data to generate actionable intelligence identifying patterns and improvement opportunities not visible from single data sources.','Early-warning or predictive capabilities appropriate to digital maturity are implemented (incident trend analysis, clinical surveillance, statistical process control).','The hospital contributes to population health intelligence through national registries (NCHADS, CENAT, CNM, maternal surveillance) and uses population data to inform services.','Research data governance ensures patient data used for research is de-identified or ethically approved, with policy and committee oversight.','A culture of data-driven improvement is evident: staff understand relevant indicators, data are displayed in clinical areas, and ≥2 documented data-driven improvements with sustained results.']
+  },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+const state = {
+  statuses: {},    // code -> 'met'|'partial'|'notmet'|'na'|''
+  meStatuses: {},  // code+'_'+meIdx -> status
+  notes: {},       // code -> string
+  filter: 'all',
+  search: '',
+  expanded: {},
+};
+
+// Initialize
+STANDARDS.forEach(s => {
+  state.statuses[s.code] = '';
+  state.notes[s.code] = '';
+  s.meTexts.forEach((_, i) => { state.meStatuses[s.code+'_'+i] = ''; });
+});
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderAll() {
+  renderSidebar();
+  renderStandards();
+  updateStats();
+}
+
+function renderSidebar() {
+  const sb = document.getElementById('sidebar');
+  let html = '';
+  GROUPS.forEach(g => {
+    const groupStds = STANDARDS.filter(s => s.group === g.id);
+    const met = groupStds.filter(s => state.statuses[s.code] === 'met').length;
+    const total = groupStds.length;
+    const pct = total ? Math.round(met/total*100) : 0;
+    html += `
+    <div class="sidebar-section">
+      <button class="sidebar-group-btn" onclick="scrollToGroup(${g.id})" id="sbg${g.id}">
+        <div class="sgb-num">${g.id}</div>
+        <div class="sgb-info">
+          <div class="sgb-name">${g.name}</div>
+          <div class="sgb-meta">${total} standards · ${g.mes} MEs</div>
+        </div>
+        <div class="sgb-progress">${pct}%</div>
+      </button>
+    </div>`;
+  });
+  sb.innerHTML = html;
+}
+
+function renderStandards() {
+  const container = document.getElementById('standardsContainer');
+  let html = '';
+  let currentGroup = 0;
+
+  const filtered = STANDARDS.filter(s => {
+    if (state.filter === 'all') return true;
+    if (state.filter === 'Critical') return s.cls === 'Critical';
+    if (state.filter === 'Core') return s.cls === 'Core';
+    if (state.filter === 'Stretch') return s.cls === 'Stretch';
+    if (state.filter === 'notmet') return state.statuses[s.code] === 'notmet';
+    if (state.filter === 'partial') return state.statuses[s.code] === 'partial';
+    if (state.filter === 'pending') return state.statuses[s.code] === '';
+    return true;
+  }).filter(s => {
+    if (!state.search) return true;
+    const q = state.search.toLowerCase();
+    return s.code.toLowerCase().includes(q) || s.title.toLowerCase().includes(q);
+  });
+
+  if (filtered.length === 0) {
+    html = '<div style="text-align:center;padding:60px;color:var(--slate);font-size:14px;">No standards match your filter.</div>';
+    container.innerHTML = html;
+    return;
+  }
+
+  filtered.forEach(s => {
+    const grp = GROUPS.find(g => g.id === s.group);
+    if (s.group !== currentGroup) {
+      currentGroup = s.group;
+      html += `
+      <div class="group-heading" id="group${s.group}">
+        <div class="gh-num">${s.group}</div>
+        <div class="gh-name">${grp.name}</div>
+        <div class="gh-meta">${grp.stds} standards · ${grp.mes} MEs</div>
+      </div>`;
+    }
+
+    const status = state.statuses[s.code];
+    const clsLower = s.cls.toLowerCase();
+    const isOpen = state.expanded[s.code];
+
+    // ME dots
+    let meDots = '';
+    for (let i = 0; i < s.mes; i++) {
+      const ms = state.meStatuses[s.code+'_'+i];
+      meDots += `<div class="me-mini-dot ${ms}"></div>`;
+    }
+
+    // ME rows
+    let meRows = '';
+    s.meTexts.forEach((txt, i) => {
+      const ms = state.meStatuses[s.code+'_'+i];
+      meRows += `
+      <div class="me-row">
+        <div class="me-index">${i+1}</div>
+        <div class="me-text">${txt}</div>
+        <select class="me-sel ${ms}" onchange="setMEStatus('${s.code}',${i},this.value)">
+          <option value="">— Assess —</option>
+          <option value="met" ${ms==='met'?'selected':''}>✓ Met</option>
+          <option value="partial" ${ms==='partial'?'selected':''}>◑ Partial</option>
+          <option value="notmet" ${ms==='notmet'?'selected':''}>✗ Not Met</option>
+          <option value="na" ${ms==='na'?'selected':''}>N/A</option>
+        </select>
+      </div>`;
+    });
+
+    html += `
+    <div class="std-card ${clsLower}-card" id="card_${s.code}">
+      <div class="std-card-header ${isOpen?'open':''}" onclick="toggleCard('${s.code}')">
+        <div class="std-code-badge">${s.code}</div>
+        <div class="std-header-info">
+          <div class="std-title">${s.title}</div>
+          <div class="std-tags">
+            <span class="std-tag tag-${clsLower}">${s.cls}</span>
+            <span class="std-tag tag-grey">${s.mes} MEs</span>
+            <span class="std-tag tag-grey">${grp.abbr}</span>
+          </div>
+        </div>
+        <div class="std-status-wrap">
+          <select class="status-sel ${status}" onclick="event.stopPropagation()" onchange="setStatus('${s.code}',this.value)">
+            <option value="">— Status —</option>
+            <option value="met" ${status==='met'?'selected':''}>✓ Met</option>
+            <option value="partial" ${status==='partial'?'selected':''}>◑ Partial</option>
+            <option value="notmet" ${status==='notmet'?'selected':''}>✗ Not Met</option>
+            <option value="na" ${status==='na'?'selected':''}>N/A</option>
+          </select>
+          <div class="me-counter">${s.mes} measurable elements</div>
+          <div class="me-dots">${meDots}</div>
+        </div>
+        <svg class="chevron-icon" viewBox="0 0 16 16" width="16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="std-card-body ${isOpen?'open':''}" id="body_${s.code}">
+        <div class="me-list">${meRows}</div>
+        <div class="card-notes-wrap">
+          <div class="notes-lbl">Evidence Notes &amp; Action Items</div>
+          <textarea class="card-notes" placeholder="Document available evidence, gaps identified, responsible person, target date…" onchange="setNotes('${s.code}',this.value)">${state.notes[s.code]||''}</textarea>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function updateStats() {
+  const met = STANDARDS.filter(s => state.statuses[s.code]==='met').length;
+  const partial = STANDARDS.filter(s => state.statuses[s.code]==='partial').length;
+  const notmet = STANDARDS.filter(s => state.statuses[s.code]==='notmet').length;
+  const na = STANDARDS.filter(s => state.statuses[s.code]==='na').length;
+  const assessed = met + partial + notmet + na;
+  const total = STANDARDS.length;
+
+  document.getElementById('hscScore').innerHTML = `${met} <span>/ ${total}</span>`;
+  document.getElementById('statMet').textContent = met;
+  document.getElementById('statPartial').textContent = partial;
+  document.getElementById('statNotMet').textContent = notmet;
+  document.getElementById('statNA').textContent = na;
+  document.getElementById('statAssessed').textContent = `${assessed} / ${total} assessed`;
+
+  document.getElementById('barMet').style.width = (met/total*100)+'%';
+  document.getElementById('barPartial').style.width = (partial/total*100)+'%';
+  document.getElementById('barNotMet').style.width = (notmet/total*100)+'%';
+
+  // Verdict
+  const vEl = document.getElementById('hscVerdict');
+  if (assessed === 0) {
+    vEl.className = 'hsc-verdict pending'; vEl.textContent = 'Not Started';
+  } else if (met === total) {
+    vEl.className = 'hsc-verdict met'; vEl.textContent = 'Full Compliance ✓';
+  } else if (met >= total * 0.8 && notmet === 0) {
+    vEl.className = 'hsc-verdict met'; vEl.textContent = 'Near Full Compliance';
+  } else if (met + partial >= total * 0.6) {
+    vEl.className = 'hsc-verdict partial'; vEl.textContent = 'Significant Progress';
+  } else if (assessed > 0) {
+    vEl.className = 'hsc-verdict notmet'; vEl.textContent = 'Major Gaps Identified';
+  }
+
+  // sidebar
+  renderSidebar();
+}
+
+// ============================================================
+// INTERACTIONS
+// ============================================================
+function toggleCard(code) {
+  state.expanded[code] = !state.expanded[code];
+  const body = document.getElementById('body_'+code);
+  const header = body.previousElementSibling;
+  if (state.expanded[code]) {
+    body.classList.add('open'); header.classList.add('open');
+  } else {
+    body.classList.remove('open'); header.classList.remove('open');
+  }
+}
+
+function setStatus(code, val) {
+  state.statuses[code] = val;
+  const card = document.getElementById('card_'+code);
+  // Update select class
+  const sel = card.querySelector('.status-sel');
+  sel.className = 'status-sel ' + val;
+  // update dots & stats
+  updateStats();
+  renderSidebar();
+}
+
+function setMEStatus(code, idx, val) {
+  state.meStatuses[code+'_'+idx] = val;
+  // update mini dot
+  const body = document.getElementById('body_'+code);
+  const dots = document.getElementById('card_'+code).querySelectorAll('.me-mini-dot');
+  if (dots[idx]) { dots[idx].className = 'me-mini-dot '+val; }
+  // update me sel class
+  const meRow = body.querySelectorAll('.me-row')[idx];
+  if (meRow) {
+    const sel = meRow.querySelector('.me-sel');
+    sel.className = 'me-sel '+val;
+  }
+  // auto-derive overall status from MEs
+  const meSts = Array.from({length: STANDARDS.find(s=>s.code===code).mes}, (_,i) => state.meStatuses[code+'_'+i]);
+  const filled = meSts.filter(s => s && s !== '');
+  if (filled.length === meSts.length) {
+    const hasMet = meSts.some(s => s==='met');
+    const hasPartial = meSts.some(s => s==='partial');
+    const hasNotMet = meSts.some(s => s==='notmet');
+    let derived = '';
+    if (!hasNotMet && !hasPartial) derived = 'met';
+    else if (hasNotMet && !hasMet && !hasPartial) derived = 'notmet';
+    else derived = 'partial';
+    state.statuses[code] = derived;
+    const sel = document.getElementById('card_'+code).querySelector('.status-sel');
+    sel.value = derived;
+    sel.className = 'status-sel '+derived;
+    updateStats();
+  }
+}
+
+function setNotes(code, val) {
+  state.notes[code] = val;
+}
+
+function setFilter(f, btn) {
+  state.filter = f;
+  state.search = '';
+  document.getElementById('searchBox').value = '';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderStandards();
+}
+
+function searchStandards(q) {
+  state.search = q;
+  state.filter = 'all';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.filter-btn').classList.add('active');
+  renderStandards();
+}
+
+function scrollToGroup(id) {
+  const el = document.getElementById('group'+id);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function expandAll() {
+  STANDARDS.forEach(s => { state.expanded[s.code] = true; });
+  renderStandards();
+}
+
+function resetAll() {
+  if (!confirm('Reset all assessments, ME statuses, and notes?')) return;
+  STANDARDS.forEach(s => {
+    state.statuses[s.code] = '';
+    state.notes[s.code] = '';
+    s.meTexts.forEach((_, i) => { state.meStatuses[s.code+'_'+i] = ''; });
+    state.expanded[s.code] = false;
+  });
+  renderAll();
+}
+
+// ============================================================
+// SUMMARY MODAL
+// ============================================================
+function openSummary() {
+  const met = STANDARDS.filter(s => state.statuses[s.code]==='met').length;
+  const partial = STANDARDS.filter(s => state.statuses[s.code]==='partial').length;
+  const notmet = STANDARDS.filter(s => state.statuses[s.code]==='notmet').length;
+  const na = STANDARDS.filter(s => state.statuses[s.code]==='na').length;
+  const assessed = met+partial+notmet+na;
+  const total = STANDARDS.length;
+
+  document.getElementById('modalDate').textContent = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+
+  let html = `
+  <div class="summary-grid">
+    <div class="sum-card met-card"><div class="sum-num">${met}</div><div class="sum-lbl">✓ Met</div></div>
+    <div class="sum-card partial-card"><div class="sum-num">${partial}</div><div class="sum-lbl">◑ Partially Met</div></div>
+    <div class="sum-card notmet-card"><div class="sum-num">${notmet}</div><div class="sum-lbl">✗ Not Met</div></div>
+    <div class="sum-card na-card"><div class="sum-num">${na}</div><div class="sum-lbl">N/A</div></div>
+  </div>
+  <div style="margin-bottom:20px;">
+    <div class="progress-bar" style="height:10px;border-radius:5px;">
+      <div class="pb-met" style="width:${met/total*100}%"></div>
+      <div class="pb-partial" style="width:${partial/total*100}%"></div>
+      <div class="pb-notmet" style="width:${notmet/total*100}%"></div>
+    </div>
+    <div style="font-size:11px;color:var(--slate);margin-top:6px;">${assessed} / ${total} standards assessed (${Math.round(assessed/total*100)}%)</div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--critical)"></div>Critical (3)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--core)"></div>Core (23)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--stretch)"></div>Stretch (9)</div>
+  </div>
+
+  <table class="group-summary-table">
+    <thead>
+      <tr>
+        <th>#</th><th>Group</th><th>Standards</th><th>Met</th><th>Partial</th><th>Not Met</th><th>N/A</th><th>Pending</th><th>Verdict</th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  GROUPS.forEach(g => {
+    const gStds = STANDARDS.filter(s => s.group === g.id);
+    const gMet = gStds.filter(s => state.statuses[s.code]==='met').length;
+    const gPart = gStds.filter(s => state.statuses[s.code]==='partial').length;
+    const gNotMet = gStds.filter(s => state.statuses[s.code]==='notmet').length;
+    const gNA = gStds.filter(s => state.statuses[s.code]==='na').length;
+    const gPend = gStds.filter(s => state.statuses[s.code]==='').length;
+    const gAssessed = gMet + gPart + gNotMet + gNA;
+
+    let verdict = 'pending', verdictTxt = 'Pending';
+    if (gAssessed === gStds.length) {
+      if (gMet === gStds.length) { verdict='met'; verdictTxt='Met ✓'; }
+      else if (gNotMet > 0 && gMet === 0 && gPart === 0) { verdict='notmet'; verdictTxt='Not Met'; }
+      else { verdict='partial'; verdictTxt='Partial'; }
+    } else if (gAssessed > 0) { verdict='partial'; verdictTxt='In Progress'; }
+
+    html += `<tr>
+      <td><strong>${g.id}</strong></td>
+      <td>${g.name}</td>
+      <td>${gStds.length}</td>
+      <td style="color:var(--met);font-weight:600;">${gMet||'—'}</td>
+      <td style="color:var(--partial);font-weight:600;">${gPart||'—'}</td>
+      <td style="color:var(--notmet);font-weight:600;">${gNotMet||'—'}</td>
+      <td style="color:var(--slate);">${gNA||'—'}</td>
+      <td style="color:var(--slate);">${gPend||'—'}</td>
+      <td><span class="verdict-pill ${verdict}">${verdictTxt}</span></td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+
+  // Gaps section
+  const gaps = STANDARDS.filter(s => state.statuses[s.code]==='notmet');
+  if (gaps.length > 0) {
+    html += `<div style="margin-top:22px;"><div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--notmet);margin-bottom:10px;">Priority Gaps (Not Met)</div>`;
+    gaps.forEach(s => {
+      html += `<div style="padding:8px 12px;background:#fdf0f0;border-left:3px solid var(--notmet);border-radius:0 6px 6px 0;margin-bottom:6px;">
+        <strong style="font-size:12px;color:var(--notmet);">${s.code}</strong>
+        <span style="font-size:12px;color:var(--text);margin-left:8px;">${s.title.substring(0,90)}…</span>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('summaryModal').classList.add('open');
+}
+
+function closeSummary() {
+  document.getElementById('summaryModal').classList.remove('open');
+}
+document.getElementById('summaryModal').addEventListener('click', function(e) {
+  if (e.target === this) closeSummary();
+});
+
+// ============================================================
+// EXPORT
+// ============================================================
+function exportReport() {
+  const lines = [];
+  const now = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  lines.push('CHAS LEVEL A SELF-ASSESSMENT REPORT');
+  lines.push('Kampong Chhnang Provincial Hospital (KCPH)');
+  lines.push('Date: ' + now);
+  lines.push('='.repeat(70));
+
+  const met = STANDARDS.filter(s=>state.statuses[s.code]==='met').length;
+  const partial = STANDARDS.filter(s=>state.statuses[s.code]==='partial').length;
+  const notmet = STANDARDS.filter(s=>state.statuses[s.code]==='notmet').length;
+  const na = STANDARDS.filter(s=>state.statuses[s.code]==='na').length;
+  lines.push('');
+  lines.push('OVERALL SUMMARY');
+  lines.push('-'.repeat(40));
+  lines.push(`Met:          ${met} / ${STANDARDS.length}`);
+  lines.push(`Partially Met:${partial}`);
+  lines.push(`Not Met:      ${notmet}`);
+  lines.push(`N/A:          ${na}`);
+  lines.push(`Pending:      ${STANDARDS.length - met - partial - notmet - na}`);
+
+  GROUPS.forEach(g => {
+    const gStds = STANDARDS.filter(s=>s.group===g.id);
+    lines.push('');
+    lines.push('='.repeat(70));
+    lines.push(`GROUP ${g.id}: ${g.name.toUpperCase()}`);
+    lines.push('='.repeat(70));
+    gStds.forEach(s => {
+      const st = state.statuses[s.code] || 'PENDING';
+      const stLabel = {met:'MET ✓', partial:'PARTIALLY MET ◑', notmet:'NOT MET ✗', na:'N/A', '':'PENDING ○'}[state.statuses[s.code]];
+      lines.push('');
+      lines.push(`${s.code} [${s.cls.toUpperCase()}] — ${stLabel}`);
+      lines.push(s.title);
+      lines.push('Measurable Elements:');
+      s.meTexts.forEach((txt, i) => {
+        const ms = state.meStatuses[s.code+'_'+i];
+        const msL = {met:'✓',partial:'◑',notmet:'✗',na:'N/A','':'○'}[ms||''];
+        lines.push(`  ${i+1}. [${msL}] ${txt.substring(0,100)}`);
+      });
+      if (state.notes[s.code]) {
+        lines.push('Notes: ' + state.notes[s.code]);
+      }
+    });
+  });
+
+  const blob = new Blob([lines.join('\n')], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `KCPH_CHAS_LevelA_SelfAssessment_${now.replace(/ /g,'_')}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ============================================================
+// GOOGLE SHEETS INTEGRATION
+// ============================================================
+
+// *** PASTE YOUR WEB APP URL HERE after deploying the Apps Script ***
+const SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbww6RupdZqsqFBalSOA1DbGbN4zjs4iMCZa19L8ITI9fNnpouVyODmBihlBtLETZNBM/exec';
+
+let syncTimeout = null;
+let isSyncing = false;
+let lastSyncTime = null;
+
+function setSyncStatus(status, msg) {
+  const el = document.getElementById('syncStatus');
+  const dot = document.getElementById('syncDot');
+  if (!el) return;
+  el.textContent = msg;
+  dot.className = 'sync-dot ' + status;
+}
+
+// Auto-save: debounced 1.5s after last change
+function scheduleSave() {
+  if (!SHEET_WEB_APP_URL || SHEET_WEB_APP_URL === 'YOUR_WEB_APP_URL_HERE') return;
+  clearTimeout(syncTimeout);
+  setSyncStatus('saving', 'Saving…');
+  syncTimeout = setTimeout(() => saveToSheet(), 1500);
+}
+
+async function saveToSheet() {
+  if (isSyncing) return;
+  if (!SHEET_WEB_APP_URL || SHEET_WEB_APP_URL === 'YOUR_WEB_APP_URL_HERE') {
+    setSyncStatus('error', 'Web App URL not set');
+    return;
+  }
+  isSyncing = true;
+  setSyncStatus('saving', 'Saving…');
+  try {
+    const payload = buildPayload();
+    const resp = await fetch(SHEET_WEB_APP_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    // no-cors means we can't read the response, but if no network error it succeeded
+    lastSyncTime = new Date();
+    setSyncStatus('saved', 'Saved ' + lastSyncTime.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
+  } catch(e) {
+    setSyncStatus('error', 'Save failed — check URL');
+    console.error('Sheet save error:', e);
+  }
+  isSyncing = false;
+}
+
+async function loadFromSheet() {
+  if (!SHEET_WEB_APP_URL || SHEET_WEB_APP_URL === 'YOUR_WEB_APP_URL_HERE') {
+    alert('Please set your Web App URL first (SHEET_WEB_APP_URL in the script).');
+    return;
+  }
+  setSyncStatus('saving', 'Loading…');
+  try {
+    const resp = await fetch(SHEET_WEB_APP_URL + '?action=load');
+    const data = await resp.json();
+    if (data && data.records) {
+      applyPayload(data.records);
+      setSyncStatus('saved', 'Loaded ' + new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
+      renderAll();
+    } else {
+      setSyncStatus('error', 'No data found in sheet');
+    }
+  } catch(e) {
+    setSyncStatus('error', 'Load failed — check URL');
+    console.error('Sheet load error:', e);
+  }
+}
+
+function buildPayload() {
+  const now = new Date().toISOString();
+  const rows = [];
+  STANDARDS.forEach(s => {
+    const meStatusArr = s.meTexts.map((_, i) => state.meStatuses[s.code+'_'+i] || '');
+    rows.push({
+      timestamp: now,
+      standard_code: s.code,
+      group_num: s.group,
+      group_name: GROUPS.find(g=>g.id===s.group).name,
+      classification: s.cls,
+      overall_status: state.statuses[s.code] || '',
+      me_statuses: meStatusArr.join('|'),
+      me_count: s.mes,
+      notes: state.notes[s.code] || '',
+      title: s.title.substring(0, 120)
+    });
+  });
+  return { action: 'save', records: rows };
+}
+
+function applyPayload(records) {
+  records.forEach(r => {
+    if (state.statuses.hasOwnProperty(r.standard_code)) {
+      state.statuses[r.standard_code] = r.overall_status || '';
+      state.notes[r.standard_code] = r.notes || '';
+      if (r.me_statuses) {
+        const meSts = r.me_statuses.split('|');
+        meSts.forEach((ms, i) => {
+          state.meStatuses[r.standard_code+'_'+i] = ms || '';
+        });
+      }
+    }
+  });
+}
+
+// Patch state setters to trigger auto-save
+const _origSetStatus = setStatus;
+function setStatus(code, val) {
+  _origSetStatus(code, val);
+  scheduleSave();
+}
+const _origSetMEStatus = setMEStatus;
+function setMEStatus(code, idx, val) {
+  _origSetMEStatus(code, idx, val);
+  scheduleSave();
+}
+const _origSetNotes = setNotes;
+function setNotes(code, val) {
+  _origSetNotes(code, val);
+  scheduleSave();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.getElementById('toolbarDate').textContent = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+
+// Check if URL is configured
+if (SHEET_WEB_APP_URL && SHEET_WEB_APP_URL !== 'YOUR_WEB_APP_URL_HERE') {
+  setSyncStatus('saved', 'Connected');
+} else {
+  setSyncStatus('error', 'URL not configured');
+}
+
+renderAll();
+</script>
+</body>
+</html>
